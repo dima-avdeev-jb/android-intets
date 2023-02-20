@@ -33,9 +33,8 @@ fun Content() {
     Box(
         Modifier
             .background(Color.Yellow)
-            .displayCutoutPadding()
-//            .background(Color.Green)
-//            .statusBarsPadding()
+            .displayCutoutPadding()//cutout
+            .statusBarsPadding()
             .background(Color.Blue)
             .navigationBarsPadding()//bottom
             .imePadding()//keyboard
