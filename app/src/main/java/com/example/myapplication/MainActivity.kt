@@ -68,15 +68,15 @@ fun Content() {
     val t = remember { mutableStateOf("text state") }
     Box(
         Modifier
-            .fillMaxSize()
             .background(Color.Yellow)
             .displayCutoutPadding()
             .background(Color.Green)
             .statusBarsPadding()
             .background(Color.Blue)
-            .navigationBarsPadding()
+            .navigationBarsPadding()//bottom
             .imePadding()//keyboard
             .background(Color.Red)
+            .fillMaxSize()
     ) {
         Text(
             buildString { repeat(10) { appendLine("Up ${it + 1}") } },
