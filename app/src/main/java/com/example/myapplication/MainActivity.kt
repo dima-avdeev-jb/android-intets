@@ -25,6 +25,7 @@ import androidx.core.view.WindowCompat
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -35,19 +36,29 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Content()
+                    Scaffold(topBar = {
+                        NavigationBar(containerColor = Color.Transparent) {
+                            Box(Modifier.fillMaxSize()) {
+                                Box(
+                                    Modifier
+                                        .fillMaxHeight()
+                                        .align(Alignment.CenterEnd)
+                                        .background(Color.LightGray)
+                                ) {
+                                    Text("NavigationBar",
+                                        Modifier
+                                            .align(Alignment.CenterEnd)
+                                            .padding(start = 10.dp, end = 100.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }) {
+                        Content()
+                    }
                 }
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Content()
     }
 }
 
@@ -55,47 +66,43 @@ fun GreetingPreview() {
 @Composable
 fun Content() {
     val t = remember { mutableStateOf("text state") }
-    Scaffold(topBar = {
-        NavigationBar(containerColor = Color.Transparent) {
-            Box(Modifier.fillMaxSize()) {
-                Box(
-                    Modifier
-                        .fillMaxHeight()
-                        .align(Alignment.CenterEnd)
-                        .background(Color.LightGray)
-                ) {
-                    Text("NavigationBar", Modifier.align(Alignment.CenterEnd).padding(20.dp).padding(end = 100.dp))
-                }
-            }
-        }
-    }) {
-        Box(
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color.Yellow)
+            .displayCutoutPadding()
+            .background(Color.Green)
+            .statusBarsPadding()
+            .background(Color.Blue)
+            .navigationBarsPadding()
+            .imePadding()//keyboard
+            .background(Color.Red)
+    ) {
+        Text(
+            buildString { repeat(10) { appendLine("Up ${it + 1}") } },
             Modifier
-                .fillMaxSize()
-                .background(Color.Yellow)
-                .statusBarsPadding()
-                .background(Color.Green)
-                .navigationBarsPadding()
-                .background(Color.Blue)
-                .imePadding()//keyboard
-                .background(Color.Red)
-        ) {
-            Text(
-                buildString { repeat(10) { appendLine("Up ${it + 1}") } },
-                Modifier
-                    .align(Alignment.TopStart)
-                    .background(Color.LightGray)
-            )
-            TextField(t.value, { t.value = it },
-                Modifier
-                    .align(Alignment.Center)
-                    .fillMaxWidth())
-            Text(
-                buildString { repeat(10) { appendLine("Down ${it + 1}") } },
-                Modifier
-                    .align(Alignment.BottomStart)
-                    .background(Color.LightGray)
-            )
-        }
+                .align(Alignment.TopStart)
+                .background(Color.LightGray)
+        )
+        TextField(
+            t.value, { t.value = it },
+            Modifier
+                .align(Alignment.Center)
+                .fillMaxWidth()
+        )
+        Text(
+            buildString { repeat(10) { appendLine("Down ${it + 1}") } },
+            Modifier
+                .align(Alignment.BottomStart)
+                .background(Color.LightGray)
+        )
+    }
+}
+
+@Preview(showBackground = false, device = "id:pixel_5", showSystemUi = true)
+@Composable
+fun GreetingPreview() {
+    MyApplicationTheme {
+        Content()
     }
 }
