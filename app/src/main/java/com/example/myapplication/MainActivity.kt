@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -18,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -52,27 +55,47 @@ fun GreetingPreview() {
 @Composable
 fun Content() {
     val t = remember { mutableStateOf("text state") }
-    Box(
-        Modifier
-            .fillMaxSize()
-            .navigationBarsPadding()
-            .imePadding()//keyboard
-    ) {
-        Text(
-            buildString { repeat(10) { appendLine("Up ${it + 1}") } },
+    Scaffold(topBar = {
+        NavigationBar(containerColor = Color.Transparent) {
+            Box(Modifier.fillMaxSize()) {
+                Box(
+                    Modifier
+                        .fillMaxHeight()
+                        .align(Alignment.CenterEnd)
+                        .background(Color.LightGray)
+                ) {
+                    Text("NavigationBar", Modifier.align(Alignment.CenterEnd).padding(20.dp).padding(end = 100.dp))
+                }
+            }
+        }
+    }) {
+        Box(
             Modifier
-                .align(Alignment.TopStart)
-                .background(Color.LightGray)
-        )
-        TextField(t.value, { t.value = it },
-            Modifier
-                .align(Alignment.Center)
-                .fillMaxWidth())
-        Text(
-            buildString { repeat(10) { appendLine("Down ${it + 1}") } },
-            Modifier
-                .align(Alignment.BottomStart)
-                .background(Color.LightGray)
-        )
+                .fillMaxSize()
+                .background(Color.Yellow)
+                .statusBarsPadding()
+                .background(Color.Green)
+                .navigationBarsPadding()
+                .background(Color.Blue)
+                .imePadding()//keyboard
+                .background(Color.Red)
+        ) {
+            Text(
+                buildString { repeat(10) { appendLine("Up ${it + 1}") } },
+                Modifier
+                    .align(Alignment.TopStart)
+                    .background(Color.LightGray)
+            )
+            TextField(t.value, { t.value = it },
+                Modifier
+                    .align(Alignment.Center)
+                    .fillMaxWidth())
+            Text(
+                buildString { repeat(10) { appendLine("Down ${it + 1}") } },
+                Modifier
+                    .align(Alignment.BottomStart)
+                    .background(Color.LightGray)
+            )
+        }
     }
 }
